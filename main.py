@@ -9,16 +9,16 @@ capamapa = pygame.surface.Surface((400, 400))
 _mapa = [
     ["#", "#", "#", "#", "#", "#", "#", "#", "#", "#", "#", "#", "#", "#"],
     ["#", ".", ".", ".", ".", ".", ".", ".", ".", ".", ".", ".", ".", "#"],
-    ["#", ".", "#", ".", ".", ".", ".", ".", "#", ".", ".", ".", ".", "#"],
     ["#", ".", ".", ".", ".", ".", ".", ".", ".", ".", ".", ".", ".", "#"],
-    ["#", ".", ".", ".", ".", ".", ".", ".", ".", ".", "#", ".", "#", "#"],
-    ["#", ".", ".", ".", ".", "#", ".", "#",".", ".", ".", ".", ".", "#"],
-    ["#", ".", ".", ".", ".", ".", "#", ".", ".", ".", ".", "#", ".", "#"],
     ["#", ".", ".", ".", ".", ".", ".", ".", ".", ".", ".", ".", ".", "#"],
-    ["#", ".", "#", ".", ".", ".", ".", ".", ".", ".", "#", ".", "#", "#"],
-    ["#", ".", ".", ".", ".", "#", "#", ".", ".", ".", ".", ".", ".", "#"],
-    ["#", ".", ".", ".", ".", ".", "#", ".", ".", ".", ".", "#", ".", "#"],
-    ["#", ".", ".", ".", ".", "#", "#", ".", ".", ".", ".", ".", ".", "#"],
+    ["#", ".", ".", ".", ".", ".", ".", ".", ".", ".", ".", ".", ".", "#"],
+    ["#", ".", ".", ".", ".", ".", ".", ".", ".", ".", ".", ".", ".", "#"],
+    ["#", ".", ".", ".", ".", ".", ".", ".", ".", ".", ".", ".", ".", "#"],
+    ["#", ".", ".", ".", ".", ".", ".", ".", ".", ".", ".", ".", ".", "#"],
+    ["#", ".", ".", ".", ".", ".", ".", ".", ".", ".", ".", ".", ".", "#"],
+    ["#", ".", "#", ".", "#", "#", "#", ".", ".", ".", ".", ".", ".", "#"],
+    ["#", ".", "#", ".", ".", ".", ".", ".", ".", ".", ".", "#", ".", "#"],
+    ["#", ".", "#", "#", "#", "#", "#", ".", ".", ".", ".", ".", ".", "#"],
     ["#", ".", ".", ".", ".", ".", ".", ".", ".", ".", "#", ".", "#", "#"],
     ["#", "#", "#", "#", "#", "#", "#", "#", "#", "#", "#", "#", "#", "#"]
 ]
@@ -63,21 +63,24 @@ p = Player()
 
 
 def raycaster():
-    distacia=0
-    while capamapa.get_at((int(p.x+math.sin(p.angle*math.pi/180)*distacia),int(p.y-math.cos(p.angle*math.pi/180)*distacia)))[1]!=0:
-        pygame.draw.line(Pantalla,(0,255,0),(p.x,p.y),(p.x+math.sin(p.angle*math.pi/180)*distacia,p.y-math.cos(p.angle*math.pi/180)*distacia),3)
-        distacia +=1
-    distacia=0
-    while capamapa.get_at((int(p.x+math.sin(p.angle*math.pi/180-((p.fov/2)*math.pi/180))*distacia),int(p.y-math.cos(p.angle*math.pi/180-((p.fov/2)*math.pi/180))*distacia)))[1]!=0:
-        pygame.draw.line(Pantalla,(0,255,0),(p.x,p.y),(p.x+math.sin(p.angle*math.pi/180-((p.fov/2)*math.pi/180))*distacia,p.y-math.cos(p.angle*math.pi/180-((p.fov/2)*math.pi/180))*20),3)
-        distacia +=1
-    distacia=0
-    while capamapa.get_at((int(p.x+math.sin(p.angle*math.pi/180+((p.fov/2)*math.pi/180))*distacia),int(p.y-math.cos(p.angle*math.pi/180+((p.fov/2)*math.pi/180))*distacia)))[1]!=0:
-        pygame.draw.line(Pantalla,(0,255,0),(p.x,p.y),(p.x+math.sin(p.angle*math.pi/180+((p.fov/2)*math.pi/180))*distacia,p.y-math.cos(p.angle*math.pi/180+((p.fov/2)*math.pi/180))*distacia),3)
-        distacia +=1
-    distacia=0
-    
-    
+    # distacia=0
+    # while capamapa.get_at((int(p.x+math.sin(p.angle*math.pi/180)*distacia),int(p.y-math.cos(p.angle*math.pi/180)*distacia)))[1]!=0:
+    #     pygame.draw.line(Pantalla,(0,255,0),(p.x,p.y),(p.x+math.sin(p.angle*math.pi/180)*distacia,p.y-math.cos(p.angle*math.pi/180)*distacia),3)
+    #     distacia +=1
+    # distacia=0
+    # while capamapa.get_at((int(p.x+math.sin(p.angle*math.pi/180-((p.fov/2)*math.pi/180))*distacia),int(p.y-math.cos(p.angle*math.pi/180-((p.fov/2)*math.pi/180))*distacia)))[1]!=0:
+    #     pygame.draw.line(Pantalla,(0,255,0),(p.x,p.y),(p.x+math.sin(p.angle*math.pi/180-((p.fov/2)*math.pi/180))*distacia,p.y-math.cos(p.angle*math.pi/180-((p.fov/2)*math.pi/180))*distacia),3)
+    #     distacia +=1
+    # distacia=0
+    # while capamapa.get_at((int(p.x+math.sin(p.angle*math.pi/180+((p.fov/2)*math.pi/180))*distacia),int(p.y-math.cos(p.angle*math.pi/180+((p.fov/2)*math.pi/180))*distacia)))[1]!=0:
+    #     pygame.draw.line(Pantalla,(0,255,0),(p.x,p.y),(p.x+math.sin(p.angle*math.pi/180+((p.fov/2)*math.pi/180))*distacia,p.y-math.cos(p.angle*math.pi/180+((p.fov/2)*math.pi/180))*distacia),3)
+    #     distacia +=1
+    for i in range(int(p.fov/2-(p.fov)),int(p.fov/2)):
+        distacia=0
+        while capamapa.get_at((int(p.x+math.sin((i+p.angle)*math.pi/180)*distacia),int(p.y-math.cos((i+p.angle)*math.pi/180)*distacia)))[1]!=0:
+            pygame.draw.line(Pantalla,(0,255,0),(p.x,p.y),(p.x+math.sin((i+p.angle)*math.pi/180)*distacia,p.y-math.cos((i+p.angle)*math.pi/180)*distacia),3)
+            distacia +=1
+       
 
 
 

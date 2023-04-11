@@ -52,7 +52,7 @@ class Player:
         self.angle = 0
         self.fov = 60
         self.sprite = pygame.draw.circle(Pantalla, (255, 0, 0), (self.x, self.y), 5)
-        self.distacia = 1
+        
 
     def reder(self):
         self.sprite = pygame.draw.circle(Pantalla, (255, 0, 0), (self.x, self.y), 5)
@@ -63,9 +63,21 @@ p = Player()
 
 
 def raycaster():
-    pygame.draw.line(Pantalla,(0,255,0),(p.x,p.y),(p.x+math.sin(p.angle*math.pi/180)*20,p.y-math.cos(p.angle*math.pi/180)*20),3)
-    pygame.draw.line(Pantalla,(0,255,0),(p.x,p.y),(p.x+math.sin(p.angle*math.pi/180-((p.fov/2)*math.pi/180))*20,p.y-math.cos(p.angle*math.pi/180-((p.fov/2)*math.pi/180))*20),3)
-    pygame.draw.line(Pantalla,(0,255,0),(p.x,p.y),(p.x+math.sin(p.angle*math.pi/180+((p.fov/2)*math.pi/180))*20,p.y-math.cos(p.angle*math.pi/180+((p.fov/2)*math.pi/180))*20),3)
+    distacia=0
+    while capamapa.get_at((int(p.x+math.sin(p.angle*math.pi/180)*distacia),int(p.y-math.cos(p.angle*math.pi/180)*distacia)))[1]!=0:
+        pygame.draw.line(Pantalla,(0,255,0),(p.x,p.y),(p.x+math.sin(p.angle*math.pi/180)*distacia,p.y-math.cos(p.angle*math.pi/180)*distacia),3)
+        distacia +=1
+    distacia=0
+    while capamapa.get_at((int(p.x+math.sin(p.angle*math.pi/180-((p.fov/2)*math.pi/180))*distacia),int(p.y-math.cos(p.angle*math.pi/180-((p.fov/2)*math.pi/180))*distacia)))[1]!=0:
+        pygame.draw.line(Pantalla,(0,255,0),(p.x,p.y),(p.x+math.sin(p.angle*math.pi/180-((p.fov/2)*math.pi/180))*distacia,p.y-math.cos(p.angle*math.pi/180-((p.fov/2)*math.pi/180))*20),3)
+        distacia +=1
+    distacia=0
+    while capamapa.get_at((int(p.x+math.sin(p.angle*math.pi/180+((p.fov/2)*math.pi/180))*distacia),int(p.y-math.cos(p.angle*math.pi/180+((p.fov/2)*math.pi/180))*distacia)))[1]!=0:
+        pygame.draw.line(Pantalla,(0,255,0),(p.x,p.y),(p.x+math.sin(p.angle*math.pi/180+((p.fov/2)*math.pi/180))*distacia,p.y-math.cos(p.angle*math.pi/180+((p.fov/2)*math.pi/180))*distacia),3)
+        distacia +=1
+    distacia=0
+    
+    
 
 
 

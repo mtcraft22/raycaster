@@ -7,20 +7,18 @@ relog = pygame.time.Clock()
 juego = True
 capamapa = pygame.surface.Surface((400, 400))
 _mapa = [
-    ["#", "#", "#", "#", "#", "#", "#", "#", "#", "#", "#", "#", "#", "#"],
-    ["#", ".", ".", ".", ".", ".", ".", ".", ".", ".", ".", ".", ".", "#"],
-    ["#", ".", ".", ".", ".", ".", ".", ".", ".", ".", ".", ".", ".", "#"],
-    ["#", ".", ".", ".", ".", ".", ".", ".", ".", ".", ".", ".", ".", "#"],
-    ["#", ".", ".", ".", ".", ".", ".", ".", ".", ".", ".", ".", ".", "#"],
-    ["#", ".", ".", ".", ".", ".", ".", ".", ".", ".", ".", ".", ".", "#"],
-    ["#", ".", ".", ".", ".", ".", ".", ".", ".", ".", ".", ".", ".", "#"],
-    ["#", ".", ".", ".", ".", ".", ".", ".", ".", ".", ".", ".", ".", "#"],
-    ["#", ".", ".", ".", ".", ".", ".", ".", ".", ".", ".", ".", ".", "#"],
-    ["#", ".", "#", ".", "#", "#", "#", ".", ".", ".", ".", ".", ".", "#"],
-    ["#", ".", "#", ".", ".", ".", ".", ".", ".", ".", ".", "#", ".", "#"],
-    ["#", ".", "#", "#", "#", "#", "#", ".", ".", ".", ".", ".", ".", "#"],
-    ["#", ".", ".", ".", ".", ".", ".", ".", ".", ".", "#", ".", "#", "#"],
-    ["#", "#", "#", "#", "#", "#", "#", "#", "#", "#", "#", "#", "#", "#"]
+    ["#", "#", "#", "#", "#", "#", "#", "#", "#", "#"] ,
+    ["#", ".", ".", ".", ".", ".", ".", ".", ".", "#"] ,
+    ["#", ".", ".", ".", ".", "#", ".", ".", ".", "#"] ,
+    ["#", ".", ".", ".", ".", ".", ".", ".", ".", "#"] ,
+    ["#", ".", ".", ".", ".", "#", ".", ".", ".", "#"] ,
+    ["#", ".", ".", ".", ".", ".", ".", ".", ".", "#"] ,
+    ["#", ".", ".", ".", ".", "#", ".", ".", ".", "#"] ,
+    ["#", ".", ".", ".", ".", ".", ".", ".", ".", "#"] ,
+    ["#", ".", ".", ".", ".", "#", ".", ".", ".", "#"] ,
+    ["#", "#", "#", "#", "#", "#", "#", "#", "#", "#"] ,
+   
+   
 ]
 
 
@@ -62,6 +60,7 @@ m = Minimapa(_mapa)
 p = Player()
 
 
+
 def raycaster():
     # distacia=0
     # while capamapa.get_at((int(p.x+math.sin(p.angle*math.pi/180)*distacia),int(p.y-math.cos(p.angle*math.pi/180)*distacia)))[1]!=0:
@@ -75,12 +74,19 @@ def raycaster():
     # while capamapa.get_at((int(p.x+math.sin(p.angle*math.pi/180+((p.fov/2)*math.pi/180))*distacia),int(p.y-math.cos(p.angle*math.pi/180+((p.fov/2)*math.pi/180))*distacia)))[1]!=0:
     #     pygame.draw.line(Pantalla,(0,255,0),(p.x,p.y),(p.x+math.sin(p.angle*math.pi/180+((p.fov/2)*math.pi/180))*distacia,p.y-math.cos(p.angle*math.pi/180+((p.fov/2)*math.pi/180))*distacia),3)
     #     distacia +=1
+    distacias=[]
     for i in range(int(p.fov/2-(p.fov)),int(p.fov/2)):
-        distacia=0
-        while capamapa.get_at((int(p.x+math.sin((i+p.angle)*math.pi/180)*distacia),int(p.y-math.cos((i+p.angle)*math.pi/180)*distacia)))[1]!=0:
-            pygame.draw.line(Pantalla,(0,255,0),(p.x,p.y),(p.x+math.sin((i+p.angle)*math.pi/180)*distacia,p.y-math.cos((i+p.angle)*math.pi/180)*distacia),3)
-            distacia +=1
-       
+        distancia=0
+        while capamapa.get_at((int(p.x+math.sin((i+p.angle)*math.pi/180)*distancia),int(p.y-math.cos((i+p.angle)*math.pi/180)*distancia)))[1]!=0 and distancia<110:
+            pygame.draw.line(Pantalla,(0,255,0),(p.x,p.y),(p.x+math.sin((i+p.angle)*math.pi/180)*distancia,p.y-math.cos((i+p.angle)*math.pi/180)*distancia),3)
+            distancia +=1
+        distacias.append(distancia)
+    c=0
+    for j in range(0,1200,60):
+        
+        pygame.draw.rect(Pantalla,(255-(distacias[c]*2),255-(distacias[c]*2),255-(distacias[c]*2)),(j,200,60,800))
+        c+=1        
+    
 
 
 
@@ -92,6 +98,7 @@ while juego:
     m.rederizar()
     Pantalla.blit(capamapa, (0, 0))
     p.reder()
+    
     raycaster()
     for event in pygame.event.get():
         if event.type == pygame.QUIT:

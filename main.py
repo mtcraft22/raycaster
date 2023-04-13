@@ -77,14 +77,14 @@ def raycaster():
     distacias=[]
     for i in range(int(p.fov/2-(p.fov)),int(p.fov/2)):
         distancia=0
-        while capamapa.get_at((int(p.x+math.sin((i+p.angle)*math.pi/180)*distancia),int(p.y-math.cos((i+p.angle)*math.pi/180)*distancia)))[1]!=0 and distancia<110:
+        while capamapa.get_at((int(p.x+math.sin((i+p.angle)*math.pi/180)*distancia),int(p.y-math.cos((i+p.angle)*math.pi/180)*distancia)))[1]!=0 and distancia<100:
             pygame.draw.line(Pantalla,(0,255,0),(p.x,p.y),(p.x+math.sin((i+p.angle)*math.pi/180)*distancia,p.y-math.cos((i+p.angle)*math.pi/180)*distancia),3)
             distancia +=1
         distacias.append(distancia)
     c=0
     for j in range(0,1200,60):
         
-        pygame.draw.rect(Pantalla,(255-(distacias[c]*2),255-(distacias[c]*2),255-(distacias[c]*2)),(j,200,60,800))
+        pygame.draw.rect(Pantalla,(255-(distacias[c]*2),255-(distacias[c]*2),255-(distacias[c]*2)),(j,200,60,600-(distacias[c]*4)))
         c+=1        
     
 
@@ -103,26 +103,29 @@ while juego:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             juego = False
-        if event.type == pygame.KEYDOWN:
-            if event.key == pygame.K_w:
-                p.distacia = 1
-                p.angle = 0
-                p.y -= 5
 
-            elif event.key == pygame.K_s:
-                p.distacia = 1
-                p.angle = 180
-                p.y += 5
+    if pygame.key.get_pressed()[pygame.K_w]:
+        p.distacia = 1
+        p.x += int(math.sin(p.angle*math.pi/180))
+        p.y -= int(math.cos(p.angle * math.pi / 180))
 
-            elif event.key == pygame.K_d:
-                p.distacia = 1
-                p.angle = 90
-                p.x += 5
 
-            elif event.key == pygame.K_a:
-                p.distacia = 1
-                p.angle = 270
-                p.x -= 5
+    elif pygame.key.get_pressed()[pygame.K_s]:
+        p.distacia = 1
+        p.x -= int(math.sin(p.angle * math.pi / 180))
+        p.y += int(math.cos(p.angle * math.pi / 180))
+
+
+    elif pygame.key.get_pressed()[pygame.K_d]:
+        p.angle += 1
+        p.distacia = 1
+
+
+    elif pygame.key.get_pressed()[pygame.K_a]:
+        p.distacia = 1
+        p.angle -= 1
+
+
     colorpisado = capamapa.get_at((p.x, p.y))
 
 
